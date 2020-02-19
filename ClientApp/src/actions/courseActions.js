@@ -37,3 +37,22 @@ export const getCourseList = () =>{
       payload: data
     }
    }
+
+   export const getCourse = (courseId) =>{
+    return async (dispatch) =>{
+      try{
+        const res = await axios.get('/api/course/'+ courseId);
+        return dispatch(getCourseSuccess(res.data));
+      }
+      catch (error) {
+        throw (error)
+      }
+    }
+   }
+   
+   export const getCourseSuccess = (data) => {
+    return {
+      type: "GET_COURSE",
+      payload: data
+    }
+   }

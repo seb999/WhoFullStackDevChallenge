@@ -10,5 +10,7 @@ namespace WhoManageCourses.Model
         public int studentcourseId { get; set; }
         public int courseId { get; set; }
         public int studentId { get; set; }
+
+        public Course Course { get; set; }
     }
 }

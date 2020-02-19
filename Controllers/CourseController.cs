@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WhoManageCourses.Model;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace WhoManageCourses.Controllers
 {
@@ -27,9 +29,11 @@ namespace WhoManageCourses.Controllers
 
         [HttpGet]
         [Route("/api/[controller]/{id}")]
-        public List<Course> Get(int id)
+        public Course GetCourse(int id)
         {
-            return DbContext.Course.Where(p=>p.courseId == id).ToList();
+            return DbContext.Course
+                .Include(p=>p.author)
+                .Where(p=>p.courseId == id).FirstOrDefault();
         }
 
         [HttpPost]

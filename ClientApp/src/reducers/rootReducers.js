@@ -1,6 +1,8 @@
 const initState = {
   authorList: [],
   courseList: [],
+  studentList: [],
+  course:{},
   isCourseSaved: false
 }
 
@@ -17,9 +19,18 @@ const rootReducer = (state = initState, action) => {
       newState.courseList = action.payload
       return newState;
 
+      case "GET_STUDENT_LIST":
+      newState.studentList = action.payload;
+      return newState;
+
     case "GET_AUTHOR_LIST":
       newState.authorList = action.payload;
       return newState;
+
+      case "GET_COURSE":
+        newState.course = action.payload;
+        return newState;
+      
 
     default:
       return state;

@@ -40,7 +40,7 @@ handleHidePopup = (data) => {
         <td>{item.name}</td>
         <td>{item.description}</td>
         <td>{item.dateAdded}</td>
-        <td> <Link  to={'/courseDetail/'+item.course_id } data-toggle="tooltip" title="Edit" className="btn"><span style={{ color: "green" }}><i className="fas fa-edit"></i></span></Link></td>
+        <td> <Link  to={'/courseDetail/'+item.courseId } data-toggle="tooltip" title="Detail" className="btn"><span style={{ color: "green" }}><i className="fas fa-glasses"></i></span></Link></td>
       </tr>
     ));
 
@@ -57,7 +57,7 @@ handleHidePopup = (data) => {
               <th scope="col">Course name</th>
               <th scope="col">Course description</th>
               <th scope="col">Added date</th>
-              <th scope="col">Edit</th>
+              <th scope="col">Detail</th>
             </tr>
           </thead>
           <tbody>

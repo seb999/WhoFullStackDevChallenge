@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WhoManageCourses.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WhoManageCourses.Controllers
 {

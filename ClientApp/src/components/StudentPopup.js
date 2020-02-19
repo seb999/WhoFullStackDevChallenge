@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actionCreator from '../actions/actions';
 import { Dispatch } from 'redux';
 
-class CoursePopup extends Component {
+class StudentPopup extends Component {
 
     constructor(props) {
         super(props);
@@ -117,4 +117,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursePopup);
+export default connect(mapStateToProps, mapDispatchToProps)(StudentPopup);

@@ -8,11 +8,13 @@ namespace WhoManageCourses.Model
     {
         [Key]
         public int courseId { get; set; }
-        public string authorId { get; set; }
+        public int authorId { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string dateAdded { get; set; }
 
-        public ICollection<StudentCourse> StudentCourse { get; set; }
+         public Author author { get; set; }
+
+       // public ICollection<StudentCourse> StudentCourse { get; set; }
     }
 }

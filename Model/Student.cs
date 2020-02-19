@@ -10,5 +10,8 @@ namespace WhoManageCourses.Model
         public int studentId { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
+        public string dateAdded { get; set; }
+
+        public ICollection<StudentCourse> StudentCourse { get; set; }
     }
 }
