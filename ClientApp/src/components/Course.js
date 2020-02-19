@@ -18,7 +18,7 @@ class Course extends Component {
   handleAddCourse = () => {
     this.setState({
       popupTitle: "Add new course",
-      selectedCourse: { deviceId: 0, author: 0 },
+      selectedCourse: null,
       showPopup: true
     });
   }
@@ -27,8 +27,15 @@ class Course extends Component {
     this.setState({
       showPopup: false,
     });
-
   }
+
+  handleEditCourse = (course) => {
+    this.setState({
+        popupTitle: "Edit Course",
+        selectedCourse: course,
+        showPopup: true
+    });
+}
 
   render() {
     let displayList = this.props.courseList.map((item, index) => (
@@ -38,6 +45,7 @@ class Course extends Component {
         <td>{item.description}</td>
         <td>{item.dateAdded}</td>
         <td> <Link to={'/courseDetail/' + item.courseId} data-toggle="tooltip" title="Detail" className="btn"><span style={{ color: "green" }}><i className="fas fa-glasses"></i></span></Link></td>
+        <td><button className="btn" onClick={() => this.handleEditCourse(item)}><span style={{ color: "green" }}><i className="fas fa-edit"></i></span></button></td>
       </tr>
     ));
 
@@ -46,6 +54,7 @@ class Course extends Component {
         <h4>Course list</h4>
         <button style={{ float: "left" }} type="button" className="btn btn-success btn-sm" onClick={this.handleAddCourse}><span><i className="fas fa-edit"></i></span> Add new course</button>
         {this.props.isCourseSaved && <div style={{ float: "right", height: "32px", padding: "3px" }} className="alert alert-success" role="alert"> New course saved!</div>}
+        {this.props.isCourseUpdated && <div style={{ float: "right", height: "32px", padding: "3px" }} className="alert alert-success" role="alert"> Course updated!</div>}
         <br /> <br />
         <table className="table table-sm table-bordered" >
           <thead className="thead-light">
@@ -55,6 +64,7 @@ class Course extends Component {
               <th scope="col">Course description</th>
               <th scope="col">Added date</th>
               <th scope="col">Detail</th>
+              <th scope="col">Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -71,6 +81,7 @@ const mapStateToProps = (state) => {
   return {
     courseList: state.courseList,
     isCourseSaved: state.isCourseSaved,
+    isCourseUpdated: state.isCourseUpdated
   }
 }
 

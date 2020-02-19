@@ -33,11 +33,25 @@ namespace WhoManageCourses.Controllers
         }
 
         [HttpPost]
-        [Route("/api/[controller]")]
+        [Route("/api/[controller]/Add")]
         public List<Author> Add([FromBody] Author author)
         {
             Author newAuthor = new Author();
             newAuthor.name = author.name;
+            newAuthor.dateAdded = DateTime.Now.ToString();
+
+            DbContext.Add(newAuthor);
+            DbContext.SaveChanges();
+            return DbContext.Author.ToList();
+        }
+
+        [HttpPost]
+        [Route("/api/[controller]/Update")]
+        public List<Author> Update([FromBody] Author author)
+        {
+            Author myAuthor = DbContext.Author.Where(predicate => predicate.authorId == author.authorId).Select(p => p).FirstOrDefault();
+            myAuthor.name = author.name;
+            myAuthor.dateAdded = DateTime.Now.ToString();
             DbContext.SaveChanges();
             return DbContext.Author.ToList();
         }

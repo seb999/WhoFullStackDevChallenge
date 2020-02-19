@@ -56,6 +56,43 @@ export const hideCourseSavedLabel = () => {
   }
 }
 
+///////////////////
+//Update Course ///
+///////////////////
+export const updateCourse = (course) =>{
+  return async (dispatch) =>{
+    try{
+      const res = await axios.post('/api/course/Update/', course);
+      dispatch(showCourseUpdatedLabel());
+      return dispatch(updateCourseSuccess(res.data));
+    }
+    catch (error) {
+      throw (error)
+    }
+  }
+ }
+ 
+ export const updateCourseSuccess = (data) => {
+  return {
+    type: "COURSE_UPDATED",
+    payload: data
+  }
+ }
+
+ export const showCourseUpdatedLabel = () =>{
+  return async (dispatch) =>{
+    setTimeout(() => {
+        dispatch(hideCourseUpdatedLabel());
+    }, 3000);
+  }
+}
+
+export const hideCourseUpdatedLabel = () =>{
+  return {
+    type:"COURSE_HIDE_UPDATED_LABEL"
+  }
+}
+
 /////////////////////
 //Get course detail//
 /////////////////////

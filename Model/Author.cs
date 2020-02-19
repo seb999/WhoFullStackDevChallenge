@@ -13,6 +13,7 @@ namespace WhoManageCourses.Model
         [Key]
         public int authorId { get; set; }
         public string name { get; set; }
+        public string dateAdded { get; set; }
         public ICollection<Course> Course { get; set; }
     }
 }

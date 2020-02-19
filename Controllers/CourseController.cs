@@ -50,5 +50,19 @@ namespace WhoManageCourses.Controllers
             DbContext.SaveChanges();
             return DbContext.Course.ToList();
         }
+
+        [HttpPost]
+        [Route("/api/[controller]/Update")]
+        public List<Course> Update([FromBody] Course course)
+        {
+            Course myCourse = DbContext.Course.Where(predicate=>predicate.courseId == course.courseId).Select(p => p).FirstOrDefault();
+            myCourse.name = course.name;
+            myCourse.description = course.description;
+            myCourse.authorId = course.authorId;
+            myCourse.dateAdded = DateTime.Now.ToString();
+            
+            DbContext.SaveChanges();
+            return DbContext.Course.ToList();
+        }
     }
 }

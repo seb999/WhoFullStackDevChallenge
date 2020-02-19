@@ -51,5 +51,20 @@ namespace WhoManageCourses.Controllers
            .Include(p => p.StudentCourse)
            .ThenInclude(p => p.Course).ToList();
         }
+
+        [HttpPost]
+        [Route("/api/[controller]/Update")]
+        public List<Student> Update([FromBody] Student student)
+        {
+            Student myStudent = DbContext.Student.Where(predicate=>predicate.studentId == student.studentId).Select(p => p).FirstOrDefault();
+            myStudent.firstName = student.firstName;
+            myStudent.lastName = student.lastName;
+            myStudent.dateAdded = DateTime.Now.ToString();
+            DbContext.SaveChanges();
+
+            return DbContext.Student
+           .Include(p => p.StudentCourse)
+           .ThenInclude(p => p.Course).ToList();
+        }
     }
 }

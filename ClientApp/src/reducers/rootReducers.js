@@ -6,6 +6,9 @@ const initState = {
   isCourseSaved: false,
   isStudentSaved: false,
   isStudentCourseSaved: false,
+  isAuthorSaved: false,
+  isAuthorUpdated: false,
+  isCourseUpdated: false,
 }
 
 const rootReducer = (state = initState, action) => {
@@ -33,9 +36,18 @@ const rootReducer = (state = initState, action) => {
       newState.courseList = action.payload
       return newState;
 
+    case "COURSE_UPDATED":
+      newState.isCourseUpdated = true;
+      newState.courseList = action.payload
+      return newState;
+
     case "COURSE_HIDE_SAVED_LABEL":
       newState.isCourseSaved = false;
       return newState;
+
+      case "COURSE_HIDE_UPDATED_LABEL":
+        newState.isCourseUpdated = false;
+        return newState;
 
     case "STUDENT_COURSE_SAVED":
       newState.isStudentCourseSaved = true;
@@ -53,6 +65,24 @@ const rootReducer = (state = initState, action) => {
 
     case "STUDENT_HIDE_SAVED_LABEL":
       newState.isStudentSaved = false;
+      return newState;
+
+    case "AUTHOR_SAVED":
+      newState.isAuthorSaved = true;
+      newState.authorList = action.payload
+      return newState;
+
+    case "AUTHOR_UPDATED":
+      newState.isAuthorUpdated = true;
+      newState.authorList = action.payload
+      return newState;
+
+    case "AUTHOR_HIDE_SAVED_LABEL":
+      newState.isAuthorSaved = false;
+      return newState;
+
+    case "AUTHOR_HIDE_UPDATED_LABEL":
+      newState.isAuthorUpdated = false;
       return newState;
 
     default:
