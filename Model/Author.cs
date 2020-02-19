@@ -6,15 +6,13 @@ namespace WhoManageCourses.Model
 {
     public class Author
     {
-        // public Author()
-        // {
-        //     Course = new HashSet<Course>();
-        // }  
-        
+        public Author()
+        {
+            Course = new HashSet<Course>();
+        }  
         [Key]
         public int authorId { get; set; }
         public string name { get; set; }
-
         public ICollection<Course> Course { get; set; }
     }
 }

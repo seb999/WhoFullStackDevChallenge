@@ -5,7 +5,6 @@ import * as actionCreator from '../actions/actions';
 import { Dispatch } from 'redux';
 
 class CoursePopup extends Component {
-
     constructor(props) {
         super(props);
         this.state = { courseId: 0, selectedAuthor: "" };
@@ -16,7 +15,6 @@ class CoursePopup extends Component {
     }
 
     componentDidUpdate(nextProps) {
-        //Detect if we update a tracker
         if (this.props !== nextProps) {
             this.setState({
                 // courseId: this.props.selectedCourse.courseId,
@@ -27,7 +25,6 @@ class CoursePopup extends Component {
 
     handleChange = (e) => {
         this.setState({
-
             [e.target.id]: e.target.value
         })
     }
@@ -38,7 +35,7 @@ class CoursePopup extends Component {
             courseId: this.state.courseId,
             Name: this.state.courseName,
             Description: this.state.courseDescription,
-            AuthorId : this.state.authorId,
+            AuthorId: this.state.authorId,
         });
         this.props.saveCourse(myCourse);
         this.props.hide("");
@@ -53,11 +50,7 @@ class CoursePopup extends Component {
 
     render() {
         return (
-
             <div>
-
-
-
                 <Modal show={this.props.showPopup} onHide={() => this.props.hide("")}>
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.popupTitle}</Modal.Title>
@@ -75,12 +68,13 @@ class CoursePopup extends Component {
 
                             <div className="form-label-group">
                                 <label>Description of course</label>
-                                <input id="courseDescription" value={this.state.courseDescription} type="text" className="form-control" placeholder="Course description" required onChange={this.handleChange}></input>
+                                <textarea rows="3" id="courseDescription" value={this.state.courseDescription} type="text" className="form-control" placeholder="Course description" required onChange={this.handleChange}></textarea>
                             </div>
 
                             <div className="form-label-group">
                                 <label>Author</label>
                                 <select id="authorId" className="form-control" onChange={this.handleChange}>
+                                    <option value="0" key="999">--</option>
                                     {this.props.authorList.map((item, index) => {
                                         return <option value={item.authorId} key={index}>{item.name}</option>
                                     })}

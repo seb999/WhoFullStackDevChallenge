@@ -3,7 +3,6 @@ import * as actionCreator from '../actions/actions';
 import { connect } from 'react-redux';
 
 class CourseDetail extends Component {
-
   constructor(props) {
     super(props);
     this.state = {};
@@ -17,7 +16,6 @@ class CourseDetail extends Component {
     return (
       <div>
         <h4>Course detail</h4>
-
         <div className="card">
           <div className="card-body">
             <h5 className="card-title">{this.props.course.name}</h5>
@@ -27,7 +25,6 @@ class CourseDetail extends Component {
             <h6 className="card-subtitle mb-2 text-muted">{this.props.course.author != null ? this.props.course.author.name : ""}</h6>
           </div>
         </div>
-
       </div>
     );
   }
@@ -35,7 +32,7 @@ class CourseDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-     course: state.course,
+    course: state.course,
   }
 }
 
@@ -46,5 +43,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseDetail);
-
-

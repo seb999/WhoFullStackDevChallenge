@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import * as actionCreator from '../actions/actions';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import CoursePopup from './CoursePopup';
 
 class Course extends Component {
   static displayName = Course.name;
-
   constructor(props) {
     super(props);
-    this.state = {  };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -18,38 +17,36 @@ class Course extends Component {
 
   handleAddCourse = () => {
     this.setState({
-        popupTitle: "Add new course",
-        selectedCourse: { deviceId: 0, author:0 },
-        showPopup: true
+      popupTitle: "Add new course",
+      selectedCourse: { deviceId: 0, author: 0 },
+      showPopup: true
     });
-}
+  }
 
-handleHidePopup = (data) => {
+  handleHidePopup = (data) => {
+    this.setState({
+      showPopup: false,
+    });
 
-  this.setState({
-    showPopup: false,
-});
-
-}
+  }
 
   render() {
-
     let displayList = this.props.courseList.map((item, index) => (
       <tr key={index}>
         <td>{item.courseId}</td>
         <td>{item.name}</td>
         <td>{item.description}</td>
         <td>{item.dateAdded}</td>
-        <td> <Link  to={'/courseDetail/'+item.courseId } data-toggle="tooltip" title="Detail" className="btn"><span style={{ color: "green" }}><i className="fas fa-glasses"></i></span></Link></td>
+        <td> <Link to={'/courseDetail/' + item.courseId} data-toggle="tooltip" title="Detail" className="btn"><span style={{ color: "green" }}><i className="fas fa-glasses"></i></span></Link></td>
       </tr>
     ));
-
 
     return (
       <div>
         <h4>Course list</h4>
         <button style={{ float: "left" }} type="button" className="btn btn-success btn-sm" onClick={this.handleAddCourse}><span><i className="fas fa-edit"></i></span> Add new course</button>
-        <br/> <br/>
+        {this.props.isCourseSaved && <div style={{ float: "right", height: "32px", padding: "3px" }} className="alert alert-success" role="alert"> New course saved!</div>}
+        <br /> <br />
         <table className="table table-sm table-bordered" >
           <thead className="thead-light">
             <tr>
@@ -64,9 +61,7 @@ handleHidePopup = (data) => {
             {displayList}
           </tbody>
         </table>
-
         <CoursePopup showPopup={this.state.showPopup} popupTitle={this.state.popupTitle} selectedCourse={this.state.selectedCourse} hide={this.handleHidePopup} />
-
       </div>
     );
   }
@@ -75,6 +70,7 @@ handleHidePopup = (data) => {
 const mapStateToProps = (state) => {
   return {
     courseList: state.courseList,
+    isCourseSaved: state.isCourseSaved,
   }
 }
 

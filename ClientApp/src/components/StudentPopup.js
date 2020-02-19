@@ -5,16 +5,9 @@ import * as actionCreator from '../actions/actions';
 import { Dispatch } from 'redux';
 
 class StudentPopup extends Component {
-
     constructor(props) {
         super(props);
         this.state = { courseId: 0, selectedAuthor: "" };
-    }
-
-    componentDidMount() {
-    }
-
-    componentDidUpdate(nextProps) {
     }
 
     handleChange = (e) => {
@@ -32,13 +25,10 @@ class StudentPopup extends Component {
         this.props.saveStudent(myStudent);
         this.props.hide("");
     }
+
     render() {
         return (
-
             <div>
-
-
-
                 <Modal show={this.props.showPopup} onHide={() => this.props.hide("")}>
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.popupTitle}</Modal.Title>
