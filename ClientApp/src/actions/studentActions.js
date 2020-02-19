@@ -33,16 +33,16 @@ export const getStudentList = () =>{
    
    export const saveStudentSuccess = (data) => {
     return {
-      type: "COURSE_SAVED",
+      type: "STUDENT_SAVED",
       payload: data
     }
    }
 
-   export const getStudent = (studentId) =>{
+   export const saveStudentCourse = (courseId, studentId) =>{
     return async (dispatch) =>{
       try{
-        const res = await axios.get('/api/student/'+ studentId);
-        return dispatch(getStudentSuccess(res.data));
+        const res = await axios.put('/api/studentCourse/'+ courseId + '/' + studentId);
+        return dispatch(saveStudentCourseSuccess(res.data));
       }
       catch (error) {
         throw (error)
@@ -50,10 +50,9 @@ export const getStudentList = () =>{
     }
    }
    
-   export const getStudentSuccess = (data) => {
-    console.log(data);
+   export const saveStudentCourseSuccess = (data) => {
     return {
-      type: "GET_STUDENT",
+      type: "STUDENT_COURSE_SAVED",
       payload: data
     }
    }

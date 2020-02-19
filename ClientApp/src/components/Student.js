@@ -1,55 +1,60 @@
 import React, { Component } from 'react';
 import * as actionCreator from '../actions/actions';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom"; 
-// import CoursePopup from './CoursePopup';
+import { Link } from "react-router-dom";
+import StudentPopup from './StudentPopup';
 
 class Student extends Component {
   static displayName = Student.name;
 
   constructor(props) {
     super(props);
-    this.state = {  selectedStudent : null };
+    this.state = { selectedStudent: null };
   }
 
   componentDidMount() {
     this.props.getStudentList();
-  }
+    this.props.getCourseList();
+  };
 
-  handleAddCourse = () => {
+  handleHidePopup = (data) => {
     this.setState({
-        popupTitle: "Add new student",
-        selectedStudent: { deviceId: 0, author:0 },
-        showPopup: true
+      showPopup: false,
     });
-}
+  };
 
-handleHidePopup = (data) => {
+  handleShowCourse = (student) => {
+    this.setState({
+      selectedStudent: student,
+    });
+  };
 
-  this.setState({
-    showPopup: false,
-});
+  handleAddStudent = (student) => {
+    this.setState({
+      popupTitle: "Add new student",
+      showPopup: true
+    });
+  };
 
-}
+  handleCourseChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
 
-handleShowCourse = (student) => {
-  
-  console.log(student)
-
-  this.setState({
-    popupTitle: "Add new student",
-    selectedStudent: student,
-});
-}
+  handleAddStudentCourse = () => {
+    console.log("save course");
+    this.props.saveStudentCourse(this.state.courseId, this.state.selectedStudent.studentId);
+  };
 
   render() {
     let courseList;
-    if(this.state.selectedStudent != null) {
+    if (this.state.selectedStudent != null) {
       courseList = this.state.selectedStudent.studentCourse.map((item, index) => (
-        <li class="list-group-item">{item.course.name}</li>
+        <li className="list-group-item" key={index}>{item.course.name}</li>
       ));
     }
-    else{
+    else {
       courseList = null;
     }
 
@@ -66,41 +71,79 @@ handleShowCourse = (student) => {
 
     return (
       <div>
-      
+
         <h4>Student list</h4>
-        <button style={{ float: "left" }} type="button" className="btn btn-success btn-sm" onClick={this.handleAddCourse}><span><i className="fas fa-edit"></i></span> Add new student</button>
-        <br/> <br/>
+        <button style={{ float: "left" }} type="button" className="btn btn-success btn-sm" onClick={this.handleAddStudent}><span><i className="fas fa-edit"></i></span> Add new student</button>
+        <br /> <br />
         <div className="row">
-        <div className="col-md-8">
-        <table className="table table-sm table-bordered" >
-          <thead className="thead-light">
-            <tr>
-              <th scope="col">Student Id</th>
-              <th scope="col">First name</th>
-              <th scope="col">Last name</th>
-              <th scope="col">Added date</th>
-              <th scope="col">Course</th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayList}
-          </tbody>
-        </table>
+          <div className="col-md-8">
+            <table className="table table-sm table-bordered" >
+              <thead className="thead-light">
+                <tr>
+                  <th scope="col">Student Id</th>
+                  <th scope="col">First name</th>
+                  <th scope="col">Last name</th>
+                  <th scope="col">Added date</th>
+                  <th scope="col">Course</th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayList}
+              </tbody>
+            </table>
 
-        {/* <CoursePopup showPopup={this.state.showPopup} popupTitle={this.state.popupTitle} selectedCourse={this.state.selectedCourse} hide={this.handleHidePopup} /> */}
-        </div>
-
-        <div className="col-md-4">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">List of courses</h5>
-            <ul class="list-group">
-             {courseList!= null ? courseList : ""}
-           </ul>
-            {/* <h6 className="card-subtitle mb-2 text-muted">{this.props.course.author != null ? this.props.course.author.name : ""}</h6> */}
+            <StudentPopup showPopup={this.state.showPopup} popupTitle={this.state.popupTitle} hide={this.handleHidePopup} />
           </div>
-        </div>
-        </div>
+
+          <div className="col-md-4">
+            <div className="card">
+              <div className="card-body">
+
+                <div className="row">
+                  <div className="col-md-6">
+                    <h5 className="card-title">List of courses</h5>
+                  </div>
+                  <div className="col-md-6">
+                    {this.state.selectedStudent != null ?
+                      <button style={{ float: "right" }} type="button" data-toggle="collapse" href="#collapseExample" className="btn btn-success btn-sm"><span><i className="fas fa-edit" ></i></span> Add course</button>
+                      :
+                      <button style={{ float: "right" }} type="button" className="btn btn-success btn-sm" disabled><span><i className="fas fa-edit" ></i></span> Add course</button>
+                    }
+                  </div>
+                </div>
+
+
+
+                <div className="collapse" id="collapseExample">
+                  <div className="card card-body">
+
+                  <label>Course</label>
+
+            
+                   
+              
+                       
+                        <select id="courseId" className="form-control" onChange={this.handleCourseChange} style={{display : "inline-flex"}}>
+                          {this.props.courseList.map((item, index) => {
+                            return <option value={item.courseId} key={index}>{item.name}</option>
+                          })}
+                        </select>
+                   
+                   
+                        <button type="button" className="btn btn-success btn-sm" onClick={() => this.handleAddStudentCourse()}><span><i className="fas fa-plus"></i></span>Add</button>
+                    
+              
+                  </div>
+                  <br />
+                </div>
+
+
+                <ul className="list-group">
+                  {courseList != null ? courseList : ""}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -110,12 +153,15 @@ handleShowCourse = (student) => {
 const mapStateToProps = (state) => {
   return {
     studentList: state.studentList,
+    courseList: state.courseList
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getStudentList: () => dispatch(actionCreator.default.student.getStudentList()),
+    getCourseList: () => dispatch(actionCreator.default.course.getCourseList()),
+    saveStudentCourse: (courseId, studentId) => dispatch(actionCreator.default.student.saveStudentCourse(courseId, studentId)),
   }
 }
 

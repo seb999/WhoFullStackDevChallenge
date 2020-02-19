@@ -23,34 +23,33 @@ namespace WhoManageCourses.Controllers
         [Route("/api/[controller]")]
         public List<Student> Get()
         {
-            // return DbContext.Student.ToList();
-            return DbContext.Student.Include(p=>p.StudentCourse).ThenInclude(p=>p.Course).ToList();
+            return DbContext.Student
+            .Include(p => p.StudentCourse)
+            .ThenInclude(p => p.Course).ToList();
         }
 
         [HttpGet]
         [Route("/api/[controller]/{id}")]
         public List<Student> Get(int id)
         {
-            // return DbContext.Student.Where(p => p.studentId == id).ToList();
-            return DbContext.Student.Include(p=>p.StudentCourse).ThenInclude(p=>p.Course).Where(p => p.studentId == id).ToList();
+            return DbContext.Student.Include(p => p.StudentCourse).ThenInclude(p => p.Course).Where(p => p.studentId == id).ToList();
         }
 
         [HttpPost]
-        [Route("/api/[controller]")]
+        [Route("/api/[controller]/Add")]
         public List<Student> Add([FromBody] Student student)
         {
             Student newStudent = new Student();
             newStudent.firstName = student.firstName;
             newStudent.lastName = student.lastName;
-            DbContext.SaveChanges();
-            return DbContext.Student.ToList();
-        }
+            newStudent.dateAdded = DateTime.Now.ToString();
 
-        [HttpGet]
-        [Route("/api/[controller]/StudentCourse/{id}")]
-        public List<Student> AddMe(int id)
-        {
-           return DbContext.Student.Include(p=>p.StudentCourse).ThenInclude(p=>p.Course).Where(p => p.studentId == id).ToList();
+            DbContext.Add(newStudent);
+            DbContext.SaveChanges();
+
+            return DbContext.Student
+           .Include(p => p.StudentCourse)
+           .ThenInclude(p => p.Course).ToList();
         }
     }
 }

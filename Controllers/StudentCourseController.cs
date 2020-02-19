@@ -20,14 +20,19 @@ namespace WhoManageCourses.Controllers
         }
 
         [HttpPut]
-        [Route("/api/[controller]/{course_id}/{student_id}")]
-        public List<StudentCourse> Add(int course_id, int student_id)
+        [Route("/api/[controller]/{courseId}/{studentId}")]
+        public List<Student> Add(int courseId, int studentId)
         {
             StudentCourse newEnroll = new StudentCourse();
-            newEnroll.courseId = newEnroll.courseId;
-            newEnroll.studentId = newEnroll.studentId;
+            newEnroll.courseId = courseId;
+            newEnroll.studentId = studentId;
+
+            DbContext.Add(newEnroll);
             DbContext.SaveChanges();
-            return DbContext.StudentCourse.ToList();
+            
+             return DbContext.Student
+           .Include(p => p.StudentCourse)
+           .ThenInclude(p => p.Course).ToList();
         }
     }
 }

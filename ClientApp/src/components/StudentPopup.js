@@ -12,45 +12,26 @@ class StudentPopup extends Component {
     }
 
     componentDidMount() {
-        this.props.getAuthorList();
     }
 
     componentDidUpdate(nextProps) {
-        //Detect if we update a tracker
-        if (this.props !== nextProps) {
-            this.setState({
-                // courseId: this.props.selectedCourse.courseId,
-                // authorId: this.props.selectedCourse.authorId,
-            })
-        }
     }
 
     handleChange = (e) => {
         this.setState({
-
             [e.target.id]: e.target.value
         })
     }
 
     handleSave = (e) => {
         e.preventDefault();
-        var myCourse = ({
-            courseId: this.state.courseId,
-            Name: this.state.courseName,
-            Description: this.state.courseDescription,
-            AuthorId : this.state.authorId,
+        var myStudent = ({
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
         });
-        this.props.saveCourse(myCourse);
+        this.props.saveStudent(myStudent);
         this.props.hide("");
     }
-
-    handleAuthorClick = (item, e) => {
-        e.preventDefault();
-        this.setState({
-            selectedAuthor: item
-        })
-    }
-
     render() {
         return (
 
@@ -64,28 +45,20 @@ class StudentPopup extends Component {
                     </Modal.Header>
                     <Modal.Body>
 
-                        <form id="newTrackerForm" className="form-signin" onSubmit={this.handleSave}>
+                        <form id="newStudentForm" className="form-signin" onSubmit={this.handleSave}>
 
-                            <input id="courseId" value={this.state.courseId} type="text" className="form-control" readOnly hidden></input>
+                            <input id="studentId" value={this.state.studentId} type="text" className="form-control" readOnly hidden></input>
 
                             <div className="form-label-group">
-                                <label>Course name</label>
-                                <input id="courseName" value={this.state.courseName} type="text" className="form-control" placeholder="Course name" required onChange={this.handleChange}></input>
+                                <label>First name</label>
+                                <input id="firstName" value={this.state.firstName} type="text" className="form-control" placeholder="first name" required onChange={this.handleChange}></input>
                             </div>
 
                             <div className="form-label-group">
-                                <label>Description of course</label>
-                                <input id="courseDescription" value={this.state.courseDescription} type="text" className="form-control" placeholder="Course description" required onChange={this.handleChange}></input>
+                                <label>Last Name</label>
+                                <input id="lastName" value={this.state.courseDescription} type="text" className="form-control" placeholder="last name" required onChange={this.handleChange}></input>
                             </div>
 
-                            <div className="form-label-group">
-                                <label>Author</label>
-                                <select id="authorId" className="form-control" onChange={this.handleChange}>
-                                    {this.props.authorList.map((item, index) => {
-                                        return <option value={item.authorId} key={index}>{item.name}</option>
-                                    })}
-                                </select>
-                            </div>
                         </form>
 
                     </Modal.Body>
@@ -93,7 +66,7 @@ class StudentPopup extends Component {
                         <Button variant="secondary" onClick={() => this.props.hide("")}>
                             Close
                                 </Button>
-                        <Button variant="primary" type="submit" form="newTrackerForm" >
+                        <Button variant="primary" type="submit" form="newStudentForm" >
                             Save Changes
                                 </Button>
                     </Modal.Footer>
@@ -106,14 +79,12 @@ class StudentPopup extends Component {
 //map the props of this class to the root redux state
 const mapStateToProps = (state) => {
     return {
-        authorList: state.authorList,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        saveCourse: (myCourse) => dispatch(actionCreator.default.course.saveCourse(myCourse)),
-        getAuthorList: () => dispatch(actionCreator.default.author.getAuthorList()),
+        saveStudent: (myStudent) => dispatch(actionCreator.default.student.saveStudent(myStudent)),
     }
 }
 
