@@ -7,8 +7,8 @@ namespace WhoManageCourses.Model
     public class Student
     {
         [Key]
-        public int student_id { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
+        public int studentId { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace WhoManageCourses.Controllers
         [Route("/api/[controller]/{id}")]
         public List<Student> Get(int id)
         {
-            return DbContext.Student.Where(p => p.student_id == id).ToList();
+            return DbContext.Student.Where(p => p.studentId == id).ToList();
         }
 
         [HttpPost]
@@ -37,8 +37,8 @@ namespace WhoManageCourses.Controllers
         public List<Student> Add([FromBody] Student student)
         {
             Student newStudent = new Student();
-            newStudent.first_name = student.first_name;
-            newStudent.last_name = student.last_name;
+            newStudent.firstName = student.firstName;
+            newStudent.lastName = student.lastName;
             DbContext.SaveChanges();
             return DbContext.Student.ToList();
         }

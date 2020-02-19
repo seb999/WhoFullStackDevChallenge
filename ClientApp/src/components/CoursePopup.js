@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actionCreator from '../actions/actions';
 import { Dispatch } from 'redux';
 
+
 // interface Props {
 //     popupTitle: string,
 //     device: Device,
@@ -14,69 +15,90 @@ import { Dispatch } from 'redux';
 //     updateTracker(token: any, p: Device): void;
 // }
 
-class CoursePopup extends Component{
+class CoursePopup extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { courseId : this.props.courseId };
-      }
+        this.state = { courseId: 0, selectedAuthor: "" };
+    }
 
     componentDidMount() {
-       
+        this.props.getAuthorList();
     }
 
     componentDidUpdate(nextProps) {
         //Detect if we update a tracker
         if (this.props !== nextProps) {
             this.setState({
-                courseId: this.props.courseId,
+                // courseId: this.props.selectedCourse.courseId,
+                // authorId: this.props.selectedCourse.authorId,
             })
         }
     }
 
     handleChange = (e) => {
         this.setState({
+
             [e.target.id]: e.target.value
         })
     }
 
     handleSave = (e) => {
         e.preventDefault();
-       
-         //Add new device to local db
-        //  var myDevice: Device = ({
-        //     deviceId: this.state.deviceId,
-        //     deviceEUI: this.state.deviceEui,
-        //     deviceDescription: this.state.deviceDescription,
-        //     ttnDevID: ttnDevID,
-        // });
-        //this.props.addCourse(myDevice);
+        var myCourse = ({
+            courseId: this.state.courseId,
+            Name: this.state.courseName,
+            Description: this.state.courseDescription,
+            AuthorId : this.state.authorId,
+        });
+        this.props.saveCourse(myCourse);
         this.props.hide("");
+    }
+
+    handleAuthorClick = (item, e) => {
+        e.preventDefault();
+        this.setState({
+            selectedAuthor: item
+        })
     }
 
     render() {
         return (
+
             <div>
+
+
+
                 <Modal show={this.props.showPopup} onHide={() => this.props.hide("")}>
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.popupTitle}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form id="newTrackerForm" className="form-signin" onSubmit={this.handleSaveDevice}>
 
-                            <input id="deviceId" value={this.state.deviceId} type="text" className="form-control" placeholder="device Id" readOnly hidden></input>
+                        <form id="newTrackerForm" className="form-signin" onSubmit={this.handleSave}>
+
+                            <input id="courseId" value={this.state.courseId} type="text" className="form-control" readOnly hidden></input>
 
                             <div className="form-label-group">
-                                <label>EUI</label>
-                                <input id="deviceEui" value={this.state.deviceEui} type="text" className="form-control" placeholder="EUI code" required onChange={this.handleChange}></input>
+                                <label>Course name</label>
+                                <input id="courseName" value={this.state.courseName} type="text" className="form-control" placeholder="Course name" required onChange={this.handleChange}></input>
                             </div>
 
                             <div className="form-label-group">
-                                <label>Add a description for your tracker</label>
-                                <input id="deviceDescription" value={this.state.deviceDescription} type="text" className="form-control" placeholder="Description" required onChange={this.handleChange}></input>
+                                <label>Description of course</label>
+                                <input id="courseDescription" value={this.state.courseDescription} type="text" className="form-control" placeholder="Course description" required onChange={this.handleChange}></input>
                             </div>
 
+                            <div className="form-label-group">
+                                <label>Author</label>
+                                <select id="authorId" className="form-control" onChange={this.handleChange}>
+                                    {this.props.authorList.map((item, index) => {
+                                        return <option value={item.authorId} key={index}>{item.name}</option>
+                                    })}
+                                </select>
+                            </div>
                         </form>
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => this.props.hide("")}>
@@ -95,14 +117,14 @@ class CoursePopup extends Component{
 //map the props of this class to the root redux state
 const mapStateToProps = (state) => {
     return {
-        userId: state.userId,
+        authorList: state.authorList,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // saveTracker: (device) => dispatch<any>(actionCreator.default.tracker.saveNewTracker(token, device)),
-        // updateTracker: (device: any) => dispatch<any>(actionCreator.default.tracker.updateTracker(token, device)),
+        saveCourse: (myCourse) => dispatch(actionCreator.default.course.saveCourse(myCourse)),
+        getAuthorList: () => dispatch(actionCreator.default.author.getAuthorList()),
     }
 }
 

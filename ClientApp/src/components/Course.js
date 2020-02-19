@@ -9,7 +9,7 @@ class Course extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { courseList: [] };
+    this.state = {  };
   }
 
   componentDidMount() {
@@ -19,7 +19,7 @@ class Course extends Component {
   handleAddCourse = () => {
     this.setState({
         popupTitle: "Add new course",
-        selectedCourse: { deviceId: 0 },
+        selectedCourse: { deviceId: 0, author:0 },
         showPopup: true
     });
 }
@@ -36,10 +36,10 @@ handleHidePopup = (data) => {
 
     let displayList = this.props.courseList.map((item, index) => (
       <tr key={index}>
-        <td>{item.course_id}</td>
+        <td>{item.courseId}</td>
         <td>{item.name}</td>
-        <td>Add description</td>
-        <td>Date added</td>
+        <td>{item.description}</td>
+        <td>{item.dateAdded}</td>
         <td> <Link  to={'/courseDetail/'+item.course_id } data-toggle="tooltip" title="Edit" className="btn"><span style={{ color: "green" }}><i className="fas fa-edit"></i></span></Link></td>
       </tr>
     ));
@@ -49,6 +49,7 @@ handleHidePopup = (data) => {
       <div>
         <h4>Course list</h4>
         <button style={{ float: "left" }} type="button" className="btn btn-success btn-sm" onClick={this.handleAddCourse}><span><i className="fas fa-edit"></i></span> Add new course</button>
+        <br/> <br/>
         <table className="table table-sm table-bordered" >
           <thead className="thead-light">
             <tr>
@@ -64,7 +65,7 @@ handleHidePopup = (data) => {
           </tbody>
         </table>
 
-        <CoursePopup showPopup={this.state.showPopup} popupTitle={this.state.popupTitle} courseId={this.state.selectedCourse} hide={this.handleHidePopup} />
+        <CoursePopup showPopup={this.state.showPopup} popupTitle={this.state.popupTitle} selectedCourse={this.state.selectedCourse} hide={this.handleHidePopup} />
 
       </div>
     );

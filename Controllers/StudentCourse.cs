@@ -23,8 +23,8 @@ namespace WhoManageCourses.Controllers
         public List<StudentCourse> Add(int course_id, int student_id)
         {
             StudentCourse newEnroll = new StudentCourse();
-            newEnroll.course_id = newEnroll.course_id;
-            newEnroll.student_id = newEnroll.student_id;
+            newEnroll.courseId = newEnroll.courseId;
+            newEnroll.studentId = newEnroll.studentId;
             DbContext.SaveChanges();
             return DbContext.StudentCourse.ToList();
         }

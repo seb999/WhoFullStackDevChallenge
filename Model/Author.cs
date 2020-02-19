@@ -7,7 +7,7 @@ namespace WhoManageCourses.Model
     public class Author
     {
         [Key]
-        public int author_id { get; set; }
+        public int authorId { get; set; }
         public string name { get; set; }
     }
 }
