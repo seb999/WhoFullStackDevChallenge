@@ -29,7 +29,7 @@ namespace WhoManageCourses.Controllers
         [Route("/api/[controller]/{id}")]
         public List<Author> Get(int id)
         {
-            return DbContext.Author.Where(p => p.author_id == id).ToList();
+            return DbContext.Author.Where(p => p.authorId == id).ToList();
         }
 
         [HttpPost]

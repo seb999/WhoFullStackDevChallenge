@@ -11,7 +11,6 @@ namespace WhoManageCourses.Model
         public virtual DbSet<Author> Author { get; set; }
         public virtual DbSet<Student> Student { get; set; }
         public virtual DbSet<Course> Course { get; set; }
-
         public virtual DbSet<StudentCourse> StudentCourse { get; set; }
     }
 }

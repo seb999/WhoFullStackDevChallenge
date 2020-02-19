@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WhoManageCourses.Model;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace WhoManageCourses.Controllers
 {
@@ -27,18 +29,24 @@ namespace WhoManageCourses.Controllers
 
         [HttpGet]
         [Route("/api/[controller]/{id}")]
-        public List<Course> Get(int id)
+        public Course GetCourse(int id)
         {
-            return DbContext.Course.Where(p=>p.course_id == id).ToList();
+            return DbContext.Course
+                .Include(p=>p.author)
+                .Where(p=>p.courseId == id).FirstOrDefault();
         }
 
         [HttpPost]
-        [Route("/api/[controller]")]
+        [Route("/api/[controller]/Add")]
         public List<Course> Add([FromBody] Course course)
         {
             Course newCourse = new Course();
             newCourse.name = course.name;
-            newCourse.author_id = course.author_id;
+            newCourse.description = course.description;
+            newCourse.authorId = course.authorId;
+            newCourse.dateAdded = DateTime.Now.ToString();
+
+            DbContext.Add(newCourse);
             DbContext.SaveChanges();
             return DbContext.Course.ToList();
         }

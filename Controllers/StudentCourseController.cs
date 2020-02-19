@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WhoManageCourses.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WhoManageCourses.Controllers
 {
@@ -19,14 +20,19 @@ namespace WhoManageCourses.Controllers
         }
 
         [HttpPut]
-        [Route("/api/[controller]/{course_id}/{student_id}")]
-        public List<StudentCourse> Add(int course_id, int student_id)
+        [Route("/api/[controller]/{courseId}/{studentId}")]
+        public List<Student> Add(int courseId, int studentId)
         {
             StudentCourse newEnroll = new StudentCourse();
-            newEnroll.course_id = newEnroll.course_id;
-            newEnroll.student_id = newEnroll.student_id;
+            newEnroll.courseId = courseId;
+            newEnroll.studentId = studentId;
+
+            DbContext.Add(newEnroll);
             DbContext.SaveChanges();
-            return DbContext.StudentCourse.ToList();
+            
+             return DbContext.Student
+           .Include(p => p.StudentCourse)
+           .ThenInclude(p => p.Course).ToList();
         }
     }
 }

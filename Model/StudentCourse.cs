@@ -7,8 +7,9 @@ namespace WhoManageCourses.Model
     public class StudentCourse
     {
         [Key]
-        public int studentcourse_id { get; set; }
-        public int course_id { get; set; }
-        public int student_id { get; set; }
+        public int studentcourseId { get; set; }
+        public int courseId { get; set; }
+        public int studentId { get; set; }
+        public Course Course { get; set; }
     }
 }
