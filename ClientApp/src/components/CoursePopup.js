@@ -11,11 +11,11 @@ class CoursePopup extends Component {
     }
 
     componentDidMount() {
-        this.props.getAuthorList();
+       this.props.getAuthorList();
     }
 
     componentDidUpdate(nextProps) {
-
+        console.log(this.props.selectedCourse);
          //Detect if we are in Edit mode
          if (this.props !== nextProps && this.props.selectedCourse!=null) {
             this.setState({
@@ -25,6 +25,13 @@ class CoursePopup extends Component {
                 authorId:  this.props.selectedCourse.authorId,
             })
         }
+        if(this.props !== nextProps && this.props.selectedCourse==null)
+            this.setState({
+                courseId: 0,
+                name: "",
+                description: "",
+                authorId:  0,
+        })
     }
 
     handleChange = (e) => {

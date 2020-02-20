@@ -18,7 +18,7 @@ class Author extends Component {
   handleAddAuthor = () => {
     this.setState({
       popupTitle: "Add new Author",
-      selectedAuthor: { },
+      selectedAuthor: null,
       showPopup: true
     });
   }

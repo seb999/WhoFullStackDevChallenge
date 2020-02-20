@@ -7,17 +7,22 @@ import { Dispatch } from 'redux';
 class AuthorPopup extends Component {
     constructor(props) {
         super(props);
-        this.state = { courseId: 0, selectedAuthor: "" };
+        this.state = { courseId: 0 };
     }
 
     componentDidUpdate(nextProps) {
         //Detect if we are in Edit mode
-        if (this.props !== nextProps) {
+        if (this.props !== nextProps && this.props.selectedAuthor!=null) {
             this.setState({
                 authorId: this.props.selectedAuthor.authorId,
                 name: this.props.selectedAuthor.name,
             })
         }
+        if(this.props !== nextProps && this.props.selectedAuthor==null)
+        this.setState({
+            authorId: 0,
+            name: "",
+    })
     }
 
     handleChange = (e) => {
